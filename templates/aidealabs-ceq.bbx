@@ -1,0 +1,84 @@
+\ProvidesFile{aidealabs-ceq.bbx}[AIdeaLabs China Economic Quarterly reference list]
+\RequireBibliographyStyle{authoryear}
+\ExecuteBibliographyOptions{labelnumber=true}
+
+\defbibenvironment{bibliography}
+  {\list{\mkbibbrackets{\printfield{labelnumber}}}
+    {\setlength{\labelwidth}{\labelnumberwidth}%
+     \setlength{\labelsep}{\biblabelsep}%
+     \setlength{\leftmargin}{\labelwidth}%
+     \addtolength{\leftmargin}{\labelsep}%
+     \setlength{\itemsep}{\bibitemsep}%
+     \setlength{\parsep}{\bibparsep}}%
+   \renewcommand*{\makelabel}[1]{\hss##1}}
+  {\endlist}
+  {\item}
+
+\DeclareNameFormat{ceq-chinese}{%
+  \ifnumgreater{\value{listcount}}{1}{、}{}%
+  \namepartfamily\namepartgiven}
+\newbibmacro*{ceq:names}[1]{%
+  \iffieldequalstr{langid}{chinese}
+    {\printnames[ceq-chinese]{#1}}
+    {\begingroup\toggletrue{abx@bool@giveninits}\printnames[family-given/given-family]{#1}\endgroup}}
+\DeclareFieldFormat{ceq-article-title}{%
+  \iffieldequalstr{langid}{chinese}{“#1”}{\mkbibquote{#1}}}
+\DeclareFieldFormat{ceq-container-title}{%
+  \iffieldequalstr{langid}{chinese}{《#1》}{\mkbibemph{#1}}}
+\DeclareFieldFormat{ceq-year}{%
+  \iffieldequalstr{langid}{chinese}{#1年}{#1}}
+\DeclareFieldFormat{ceq-volume}{%
+  \iffieldequalstr{langid}{chinese}{第#1卷}{#1}}
+\DeclareFieldFormat{ceq-number}{%
+  \iffieldequalstr{langid}{chinese}{第#1期}{\mkbibparens{#1}}}
+\DeclareFieldFormat{ceq-pages}{%
+  \iffieldequalstr{langid}{chinese}{第#1页}{#1}}
+\newcommand*{\ceqcomma}{%
+  \iffieldequalstr{langid}{chinese}{，}{\addcomma\space}}
+\newcommand*{\ceqperiod}{%
+  \iffieldequalstr{langid}{chinese}{。}{\addperiod\space}}
+\newbibmacro*{ceq:publication}{%
+  \printlist{location}%
+  \setunit{\iffieldequalstr{langid}{chinese}{：}{\addcolon\space}}%
+  \printlist{publisher}%
+  \setunit{\ceqcomma}%
+  \printfield[ceq-year]{year}}
+\newbibmacro*{ceq:finish}{%
+  \setunit{\ceqperiod}\newblock
+  \usebibmacro{doi+eprint+url}%
+  \iffieldequalstr{langid}{chinese}{\renewcommand*{\finentrypunct}{。}}{}%
+  \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}\usebibmacro{begentry}%
+  \usebibmacro{ceq:names}{author}%
+  \setunit{\ceqcomma}\printfield[ceq-article-title]{title}%
+  \setunit{\ceqcomma}\printfield[ceq-container-title]{journaltitle}%
+  \setunit{\ceqcomma}\printfield[ceq-year]{year}%
+  \setunit{\ceqcomma}\printfield[ceq-volume]{volume}%
+  \setunit*{}\printfield[ceq-number]{number}%
+  \setunit{\ceqcomma}\printfield[ceq-pages]{pages}%
+  \usebibmacro{ceq:finish}}
+\DeclareBibliographyDriver{book}{%
+  \usebibmacro{bibindex}\usebibmacro{begentry}%
+  \ifnameundef{author}{\usebibmacro{ceq:names}{editor}}{\usebibmacro{ceq:names}{author}}%
+  \setunit{\ceqcomma}\printfield[ceq-container-title]{title}%
+  \setunit{\ceqperiod}\usebibmacro{ceq:publication}%
+  \usebibmacro{ceq:finish}}
+\DeclareBibliographyDriver{incollection}{%
+  \usebibmacro{bibindex}\usebibmacro{begentry}%
+  \usebibmacro{ceq:names}{author}%
+  \setunit{\ceqcomma}\printfield[ceq-article-title]{title}%
+  \setunit{\ceqcomma}%
+  \printtext{\iffieldequalstr{langid}{chinese}{载}{In\addspace}}%
+  \iffieldequalstr{langid}{chinese}
+    {\usebibmacro{ceq:names}{editor}%
+     \ifnameundef{editor}{}{\printtext{主编}}%
+     \printfield[ceq-container-title]{booktitle}}
+    {\printfield[ceq-container-title]{booktitle}%
+     \ifnameundef{editor}{}{\setunit{\addcomma\space}%
+       \printtext{edited by\addspace}\printnames[given-family]{editor}}}%
+  \setunit{\ceqcomma}\printfield[ceq-pages]{pages}%
+  \setunit{\ceqperiod}\usebibmacro{ceq:publication}%
+  \usebibmacro{ceq:finish}}
+\DeclareBibliographyAlias{inproceedings}{incollection}

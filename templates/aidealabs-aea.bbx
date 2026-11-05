@@ -1,0 +1,27 @@
+\ProvidesFile{aidealabs-aea.bbx}[AIdeaLabs AEA reference list]
+\RequireBibliographyStyle{authoryear}
+\ExecuteBibliographyOptions{dashed=false,mergedate=basic,isbn=false}
+
+\DeclareDelimFormat[bib,biblist]{nametitledelim}{\addperiod\space}
+\DeclareDelimFormat[bib,biblist]{nameyeardelim}{\addperiod\space}
+\DeclareDelimFormat[bib,biblist]{nonameyeardelim}{\addperiod\space}
+\DeclareDelimFormat[bib,biblist]{andothersdelim}{\addcomma\space}
+\renewbibmacro*{date+extradate}{%
+  \iffieldundef{labelyear}{}{\printlabeldateextra}}
+\DeclareFieldFormat[article,incollection,inproceedings]{title}{\mkbibquote{#1\isdot}}
+\DeclareFieldFormat[article]{number}{\mkbibparens{#1}}
+\DeclareFieldFormat[article,incollection,inproceedings]{pages}{\mkcomprange{#1}}
+
+\renewbibmacro*{in:}{%
+  \ifentrytype{article}{}{\bibstring{in}\space}}
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \setunit{\addspace}\printfield{number}%
+  \setunit{\bibeidpunct}\printfield{eid}}
+\renewbibmacro*{note+pages}{%
+  \printfield{note}%
+  \ifentrytype{article}
+    {\setunit{\addcolon\space}}
+    {\setunit{\bibpagespunct}}%
+  \printfield{pages}%
+  \newunit}

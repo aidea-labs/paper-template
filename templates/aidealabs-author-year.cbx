@@ -1,0 +1,20 @@
+\ProvidesFile{aidealabs-author-year.cbx}[AIdeaLabs author-year citations]
+\RequireCitationStyle{authoryear}
+
+\DeclareDelimFormat{nameyeardelim}{\addspace}
+\DeclareDelimFormat{finalnamedelim}{%
+  \iffieldequalstr{langid}{chinese}
+    {\addspace 和\addspace}
+    {\ifnumgreater{\value{liststop}}{2}{\finalandcomma}{}%
+     \addspace\bibstring{and}\space}}
+\DeclareDelimFormat{andothersdelim}{\addspace}
+\renewbibmacro*{name:andothers}{%
+  \ifboolexpr{test {\ifnumequal{\value{listcount}}{\value{liststop}}}
+              and test \ifmorenames}
+    {\printdelim{andothersdelim}%
+     \iffieldequalstr{langid}{chinese}{等}{\bibstring{andothers}}}
+    {}}
+
+\renewbibmacro*{postnote}{}
+\renewbibmacro*{textcite:postnote}{%
+  \ifbool{cbx:parens}{\bibcloseparen}{}}

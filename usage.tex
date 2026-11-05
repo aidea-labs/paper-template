@@ -1,0 +1,339 @@
+\documentclass{templates/aidealabs-paper}
+
+\usepackage{fancyvrb}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\addbibresource{references.bib}
+
+\title{AIdea-Labs Research Paper Template}
+\subtitle{A Practical Guide for Authors}
+\author{%
+  \authorcontact{First Author\textsuperscript{1,*}}{first.author@aidea-labs.com}\hfill
+  \authorcontact{Second Author\textsuperscript{1,2,*}}{second.author@aidea-labs.com}\hfill
+  \authorcontact{Third Author\textsuperscript{2,\textdagger}}{third.author@aidea-labs.com}%
+}
+\affiliation{%
+  \textsuperscript{1}AIdea-Labs\\[-0.1em]
+  \textsuperscript{2}Department or University Name
+}
+\equalcontributionnote{Equal contribution.}
+\correspondingauthornote{Corresponding author.}
+\keywords{research paper; LaTeX; author guide; reproducible writing}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This guide shows how to use the AIdea-Labs LaTeX template to prepare an English or Chinese research manuscript.
+It explains how to choose a document class, organize the introduction, manage author--year citations, and present equations, figures, and tables.
+The guide doubles as a typeset example, while the separate \texttt{main.tex} file provides a clean starting point for a new paper.
+\end{abstract}
+
+\section{Introduction}
+A good introduction gives readers a reason to keep reading and helps them understand what they will learn from the paper.
+Think of it as a sequence of paragraph groups, each with a job to do.
+A group can be a few sentences within a paragraph, a full paragraph, or two short paragraphs.
+Aim to get through the introduction in fewer than seven paragraphs when the question allows it.
+Use the length of each group to match what readers need to understand at that point.
+
+% 在实际的写作中，避免使用 \paragraph{} 命令来创建段落，这个只是为了在模板中演示段落的结构。实际写作时，直接使用空行来分隔段落即可。注意，LaTeX 中单个回车（即行和行之间没有额外的回车）则为同一段，通常我们在写作的时候，一句话一行，方便我们进行调整和修改。
+\paragraph{Open with a fact that leads to the question.}
+Use the first two or three sentences to establish the setting, point to a pattern or puzzle, and show why it matters.
+If you begin with a growing population, for example, narrow the observation to the place and period you study.
+Then connect that growth to a concrete question, such as whether housing supply has kept pace.
+A reader should be able to see how the opening fact leads to the question before you turn to the literature.
+
+\paragraph{Show where existing research leaves the question open.}
+Start with the explanation or finding that a reader would naturally turn to for an answer.
+Then identify the disagreement, the missing evidence, or the setting where that explanation is still untested.
+If two lines of research offer different answers, one short paragraph can explain the contrast and the next can show why it matters for your question.
+End this group with the question your paper will answer.
+
+\paragraph{Explain your perspective and how you investigate it.}
+State your central idea in one sentence.
+Use the next few sentences to explain why it is plausible and how your evidence can help evaluate it.
+In an empirical paper, you might introduce the setting, the data, and the comparison that makes the question answerable.
+Give the design its own paragraph if readers need more context to understand the comparison.
+
+\paragraph{State the main findings and what they add.}
+Lead with the finding that answers the question you raised at the start.
+Give readers a sense of its direction and, where meaningful, its size.
+Then connect that result to the specific gap or disagreement you identified.
+Explain what readers can now know, distinguish, or measure because of your study.
+The findings and contribution can share a paragraph when the connection is direct.
+Give the contribution a separate paragraph if it takes more space to explain how your evidence changes the interpretation of earlier work.
+
+Close with a short roadmap.
+Give each section a brief description of what it does for the reader.
+
+The rest of this paper is organized as follows\footnote{A typical empirical economics paper opens with an introduction in Section~1.
+Section~2 reviews the literature, Section~3 describes the data, and Section~4 presents the empirical model.
+Section~5 reports the results, and Section~6 discusses them, including robustness checks and heterogeneity analysis.
+The final section concludes.
+The following example shows how to summarize this structure.
+\enquote{The rest of this paper is organized as follows.
+Section~2 reviews the related literature.
+Sections~3 and~4 describe the data and present the empirical model, respectively.
+Section~5 reports the empirical results.
+Section~6 discusses the findings and presents robustness checks and heterogeneity analyses.
+Section~7 concludes.}}.
+Section~\ref{sec:quick-start}\footnote{When outlining the paper, use \texttt{\textbackslash{}ref\{sec:quick-start\}} to refer to a section by its label.
+The section number updates automatically if the sections are reordered.} explains how to set up and compile a manuscript.
+Sections~\ref{sec:authors} and~\ref{sec:writing} show how to prepare the title page, write the abstract, and structure the main text.
+Sections~\ref{sec:citations} and~\ref{sec:equations} explain how to cite sources using author--year references, typeset equations, and cross-reference numbered material.
+Sections~\ref{sec:figures} and~\ref{sec:tables} demonstrate how to present figures and tables.
+Section~\ref{sec:end-matter} covers acknowledgments, declarations, and appendices.
+Section~\ref{sec:checklist} provides a checklist for the final review.
+The appendix shows the minimum LaTeX structure needed to start a paper.
+
+\section{Quick Start}
+\label{sec:quick-start}
+
+The project contains English and Chinese document classes in the \texttt{templates/} directory.
+The English class is used for this guide, and its layout can also be used for papers outside economics.
+
+\begin{enumerate}
+  \item Copy the project folder so that \texttt{main.tex}, \texttt{references.bib}, \texttt{templates/}, and \texttt{assets/} stay together.
+  \item Open the clean \texttt{main.tex} file in your copy.
+  \item Fill in the title, author details, and abstract, then add your sections and bibliography entries.
+  \item Compile from the project root and inspect the PDF.
+\end{enumerate}
+
+The first line of \texttt{main.tex} selects the document class.
+Use the first line below for the English class or the second for the Chinese class.
+
+\begin{Verbatim}[fontsize=\small]
+\documentclass{templates/aidealabs-paper}
+\documentclass{templates/aidealabs-paper-zh}
+\end{Verbatim}
+
+The classes control typography and document labels.
+Write the title, abstract, and body in the language of your manuscript.
+Keep the \texttt{assets/} directory beside \texttt{main.tex} so the class can find the AIdeaLabs logo.
+
+Compile the English manuscript with XeLaTeX by running the following command from the project root.
+Latexmk calls Biber and reruns LaTeX as needed to resolve citations and cross-references.
+
+\begin{Verbatim}[fontsize=\small]
+latexmk -xelatex main.tex
+\end{Verbatim}
+
+To rebuild this guide, run \texttt{latexmk -xelatex usage.tex}.
+
+For a Chinese manuscript, select the Chinese class and run \texttt{latexmk -lualatex main.tex}.
+Both classes share the same author--year citation rules and load their own reference-list style from \texttt{templates/}.
+
+\section{Title, Authors, and Affiliations}
+\label{sec:authors}
+
+Edit the metadata before \verb|\begin{document}|. Use superscript numerals only for affiliations. The asterisk marks equal contribution, and the dagger marks a corresponding author. Each author's email address appears directly below the name and remains clickable in the PDF.
+
+\begin{Verbatim}[fontsize=\small]
+\author{%
+  \authorcontact{First Author\textsuperscript{1,*}}
+    {first.author@example.org}\hfill
+  \authorcontact{Second Author\textsuperscript{1,2,*}}
+    {second.author@example.org}\hfill
+  \authorcontact{Third Author\textsuperscript{2,\textdagger}}
+    {third.author@example.org}%
+}
+\affiliation{%
+  \textsuperscript{1}AIdeaLabs\\
+  \textsuperscript{2}Department or University Name
+}
+\equalcontributionnote{Equal contribution.}
+\correspondingauthornote{Corresponding author.}
+\end{Verbatim}
+
+For more than three authors, begin another centered row with \verb|\par\medskip|. Keep affiliations concise and list each institution only once. The author notes appear at the bottom of the first page; ordinary manuscript footnotes still begin at 1.
+
+\section{Abstract and Main Text}
+\label{sec:writing}
+
+The abstract should state the research problem, method, principal result, and main implication in approximately 150--250 words. It should remain understandable without the rest of the paper. Avoid unexplained abbreviations, citations, and background material that belongs in the introduction.
+
+Use \verb|\section|, \verb|\subsection|, and \verb|\subsubsection| for the manuscript hierarchy. The introduction should establish the context, identify a precise gap, state the contribution, and give the reader a short map of the paper. Paragraphs are fully justified and receive the template's standard first-line indent automatically.
+
+\subsection{Lists, emphasis, and footnotes}
+
+Use lists only when parallel items are easier to scan than a paragraph:
+
+\begin{itemize}
+  \item state one complete idea in each item;
+  \item keep grammatical structure consistent; and
+  \item return to prose when the relationship between ideas matters more than enumeration.
+\end{itemize}
+
+Use italics sparingly for terms or controlled emphasis. A numbered footnote is appropriate for a useful clarification that would interrupt the argument.\footnote{This is an ordinary manuscript footnote. Its number is independent of the symbolic author notes on the first page.}
+
+\note{The shaded note is useful for a brief instruction, definition, or caution. It should not carry evidence that belongs in the main argument.}
+
+\section{Citations and References}
+\label{sec:citations}
+
+Store every source in \texttt{references.bib}. Use \verb|\textcite{key}| when the author's name belongs in the sentence and \verb|\parencite{key}| when the entire citation belongs in parentheses. For example, \textcite{vaswani2017attention} introduced the transformer architecture, while later work demonstrated strong few-shot capabilities at scale~\parencite{brown2020language}.
+
+In-text citations are blue so that readers can identify and open them quickly. Body text, email addresses, URLs, and internal cross-references remain black. Both classes use Chicago author--year citations without page locators.
+Citations list all authors for up to four authors and abbreviate longer author lists.
+The English class uses AEA reference-list conventions.
+The Chinese class uses the numbered reference list of \emph{China Economic Quarterly}, with Chinese and English sources sorted together by author name.
+For Chinese entries, set \texttt{langid = \{chinese\}} and supply a romanized \texttt{sortname} to interleave them with English entries.
+
+\begin{Verbatim}[fontsize=\small]
+\addbibresource{references.bib}
+% Use citations in the manuscript:
+\textcite{vaswani2017attention}
+\parencite{brown2020language}
+% Print the list near the end:
+\printbibliography
+\end{Verbatim}
+
+Do not type author--date citations or reference entries manually. Bibliography software keeps names, years, capitalization, links, and ordering consistent.
+
+\section{Equations and Cross-References}
+\label{sec:equations}
+
+Number an equation only when the text refers to it. A generic regression specification is
+
+\begin{equation}
+  y_{it} = \alpha + \beta D_{it} + \gamma^{\mathsf{T}} X_{it}
+  + \mu_i + \tau_t + \varepsilon_{it},
+  \label{eq:model}
+\end{equation}
+
+where $D_{it}$ is the treatment or focal exposure, $X_{it}$ is a vector of observed controls, and $\mu_i$ and $\tau_t$ denote unit and time fixed effects. The estimand of interest is $\beta$ in \cref{eq:model}.
+
+Place \verb|\label{...}| immediately after a section, caption, or numbered equation. Refer to the label with \verb|\cref{...}| or \verb|\Cref{...}|. This prevents numbering errors when material is inserted, removed, or rearranged.
+
+\section{Figures}
+\label{sec:figures}
+
+Every figure should have a descriptive caption and be discussed in the text. Use vector graphics when possible, and use high-resolution raster images when vector output is unavailable. Explain visual encodings, abbreviations, units, and sample restrictions either in the caption or an accompanying note.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+    node distance=0.55cm,
+    every node/.style={font=\sffamily\small},
+    flowbox/.style={draw=AideaRule,fill=AideaSoft,rounded corners=2pt,minimum width=3.35cm,minimum height=1.05cm,align=center},
+    arrow/.style={-{Latex[length=2mm]},line width=0.65pt,draw=AideaAccent}
+  ]
+    \node[flowbox] (question) {Research question\\and hypotheses};
+    \node[flowbox,right=of question] (evidence) {Data collection\\and measurement};
+    \node[flowbox,right=of evidence] (analysis) {Estimation\\and validation};
+    \draw[arrow] (question) -- (evidence);
+    \draw[arrow] (evidence) -- (analysis);
+  \end{tikzpicture}
+  \caption{A compact example of a research workflow.}
+  \label{fig:workflow}
+\end{figure}
+
+\Cref{fig:workflow} is centered automatically. For an external image, replace the TikZ block with:
+
+\begin{Verbatim}[fontsize=\small]
+\includegraphics[width=\textwidth]{path/to/file}
+\end{Verbatim}
+
+Retain \verb|\centering|, \verb|\caption|, and \verb|\label| so that the figure remains aligned, numbered, and cross-referenced correctly.
+
+\section{Tables and Table Notes}
+\label{sec:tables}
+
+Tables should use horizontal rules sparingly and report units, uncertainty, and sample sizes. Center the table and caption. When explanatory material is required, place a left-aligned note directly below the table at the same width.
+
+\begin{table}[htbp]
+  \centering
+  \begin{minipage}{0.86\textwidth}
+    \centering
+    \caption{Example model results}
+    \label{tab:results}
+    \begin{tabularx}{\textwidth}{Xrrr}
+      \toprule
+      Outcome & Estimate & Std. error & $p$-value \\
+      \midrule
+      Primary outcome   & 0.184 & 0.052 & 0.001 \\
+      Secondary outcome & 0.071 & 0.033 & 0.032 \\
+      Placebo outcome   & 0.009 & 0.027 & 0.739 \\
+      \midrule
+      Observations      & \multicolumn{3}{r}{12,480} \\
+      \bottomrule
+    \end{tabularx}
+    \vspace{0.45em}
+    {\footnotesize\raggedright\textit{Note.} Entries report coefficient estimates from separate models. Standard errors are shown in the third column. Replace all illustrative values before submission.\par}
+  \end{minipage}
+\end{table}
+
+\Cref{tab:results} demonstrates the recommended table structure. A general note begins with italicized \textit{Note.}; define symbols, abbreviations, model differences, standard errors, and significance markers before interpreting the estimates.
+
+\section{End Matter}
+\label{sec:end-matter}
+
+Use an unnumbered acknowledgements section for intellectual, technical, or financial support that does not meet the criteria for authorship. Add separate funding, conflict-of-interest, ethics, data-availability, and code-availability statements when they are required by the research context or target venue.
+
+Begin appendices after the reference list. Put robustness checks, additional derivations, survey instruments, prompts, and extended tables there, and refer to each appendix item from the main text when it is necessary to evaluate the argument.
+
+\section{Final Checklist}
+\label{sec:checklist}
+
+Before submitting the paper, confirm that:
+
+\begin{itemize}
+  \item every author, affiliation, email address, and author note is correct;
+  \item the abstract reports the actual question, method, result, and implication;
+  \item every figure and table is cited in the text and can be read independently;
+  \item all illustrative values and placeholder text have been removed;
+  \item citations resolve and every bibliography entry is complete;
+  \item footnotes, equations, figures, tables, and appendices are numbered correctly;
+  \item funding, ethics, conflicts, data, and code statements are included when needed; and
+  \item the PDF has been inspected page by page after a clean compilation.
+\end{itemize}
+
+\section*{Acknowledgements}
+
+This guide uses placeholder names, email addresses, institutions, and numerical results. Replace them before using the template for a real manuscript.
+
+\clearpage
+\printbibliography
+
+\clearpage
+\appendix
+\section{Minimal Paper Structure}
+
+\subsection{Start a Manuscript}
+
+The following example shows how to fill in the clean \texttt{main.tex} file when starting a manuscript.
+The class path is relative to the project root.
+Keep your bibliography entries in \texttt{references.bib} and add sections as the manuscript takes shape.
+
+\begin{Verbatim}[fontsize=\small]
+\documentclass{templates/aidealabs-paper}
+\addbibresource{references.bib}
+
+\title{Your Paper Title}
+\author{%
+  \authorcontact{First Author\textsuperscript{1}}
+    {first.author@example.org}%
+}
+\affiliation{\textsuperscript{1}Institution Name}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+State the question, method, result, and implication.
+\end{abstract}
+
+\section{Introduction}
+Write the manuscript here.
+
+\clearpage
+\printbibliography
+\end{document}
+\end{Verbatim}
+
+\subsection{Compile and Inspect}
+
+Add sections, figures, tables, notes, and appendices only when the paper needs them. Keep source files and figure names descriptive, compile after meaningful changes, and inspect the resulting PDF rather than relying on the source view alone.
+
+\end{document}
