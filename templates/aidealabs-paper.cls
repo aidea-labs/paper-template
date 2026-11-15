@@ -3,6 +3,11 @@
 
 \LoadClass[12pt,a4paper]{article}
 
+% 避免段落首行或末行单独出现在页边。
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[american]{babel}
@@ -41,8 +46,8 @@
 \RequirePackage{csquotes}
 \RequirePackage[
   backend=biber,
-  bibstyle=templates/aidealabs-aea,
-  citestyle=templates/aidealabs-author-year,
+  bibstyle=templates/citation/en,
+  citestyle=templates/citation/author-year,
   sorting=nyt,
   sortlocale=en_US,
   sortcites=true,

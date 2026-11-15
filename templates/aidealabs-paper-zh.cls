@@ -3,6 +3,11 @@
 
 \LoadClass[UTF8,12pt,a4paper,fontset=fandol]{ctexart}
 
+% 避免段落首行或末行单独出现在页边。
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
 \RequirePackage{fontspec}
 \setmainfont{texgyrepagella-regular.otf}[
   BoldFont=texgyrepagella-bold.otf,
@@ -47,8 +52,8 @@
 \RequirePackage{csquotes}
 \RequirePackage[
   backend=biber,
-  bibstyle=templates/aidealabs-ceq,
-  citestyle=templates/aidealabs-author-year,
+  bibstyle=templates/citation/zh,
+  citestyle=templates/citation/author-year,
   sorting=nyt,
   sortlocale=en_US,
   sortcites=true,
